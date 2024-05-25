@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Site add
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'js/site-add.js' %}" type="module"></script>
+{% endblock %}
+{% block content %}
+    <form action="" method="POST" class="card-body p-3 m-5 bg-primary" style="border-radius: 12px;" id="app">
+        {% csrf_token %}
+        <div class="m-3">
+            <input type="text" required placeholder="label" class="form-label"  v-model="object.label">
+        </div>
+        <div class="m-3">
+            <input type="url" required placeholder="url" class="form-url" v-model="object.url" pattern="(?:https?:\/\/)?(?:[\w\.]+)\.(?:[a-z]{2,6}\.?)(?:\/[\w\.]*)*\/?">
+        </div>
+        <div class="m-3">
+            <textarea name="" id="" cols="30" rows="10" placeholder="description" class="from-label" v-model="object.description"></textarea>
+        </div>
+        <div class="m-3">
+            <input type="text" placeholder="excpected responce code" required class="form-label" v-model="object.expected_responce_code" pattern='^([0-9][0-9][0-9], {0,1}){1,}'>
+        </div>
+        <div class="m-3">
+            <input type="text" placeholder="excpected responce code pattern" class="form-label" v-model="object.expected_responce_code_pattern">
+        </div>
+        <div class="m-3">
+            <input type="checkbox" name="checkbox-check-active" required class="form-check-input" v-model="object.cheking_active"> <label for="checkbox-check-active">Check active</label
+                ></div>
+        <div class="m-3">
+            <input type="checkbox" name="checkbox-inversive-condition" required class="form-check-input" v-model="object.inversive_condition"> <label for="checkbox-inversive-condition">Inversive condition</label>
+        </div>
+        <div class="m-3">
+            <input type="text" required placeholder="*m *h *d *w *m" class="form-label" v-model="object.cron_schedule">
+        </div>
+        <div class="m-3">
+    </div>
+    <input type="button" @click.prevent="submitForm" value="Submit" class="btn btn-success m-3">
+    </form>
+{% endblock %}

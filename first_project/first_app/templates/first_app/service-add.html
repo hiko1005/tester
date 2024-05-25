@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Service add
+{% endblock %}{%block scripts%}
+<script src="{% static 'js/service-add.js' %}" type="module"></script>
+{% endblock %}
+{% block content %}
+    <form action="" method="POST" class="card-body p-3 m-5 bg-primary" style="border-radius: 12px;" id="app">
+        {% csrf_token %}
+        <div class="m-3">
+            <input type="text" required placeholder="name" class="form-label" v-model="object.label">
+        </div>
+        <div class="m-3">
+            <label for="type_notification" class="text-light">Type notification</label>
+            <select id="type_notification" required class="form-select" v-model="object.type">
+                <option value="Telegram">Telegram Bot</option>
+                <option value="e-mail">E-mail</option>
+                <option value="custom">Custom</option>
+            </select>
+        </div>
+        <div class="m-3">
+            <input type="text" v-if="object.type == 'Telegram'" class="form-label" placeholder="Token" v-model="object.token" :required="object.type == 'Telegram'">
+        </div>
+        <div class="m-3">
+            <textarea cols="30" rows="10" class="form-text" placeholder="Message pattern" v-model="object.message_pattern"></textarea>
+        </div>
+        <div class="m-3">
+            <label for="active" class="text-light">Active</label>
+        <input type="checkbox" id="active" required class="form-check-input" v-model="object.is_active">
+        </div>
+        <template v-if="object.type == 'e-mail' || object.type == 'custom'">
+            <div class="m-3">
+                <input type="text"  placeholder="login" v-model="object.login">
+            </div>
+            <div class="m-3">
+                <input type="password" placeholder="password" v-model="object.password">
+            </div>
+        </template>
+        <div class="m-3">
+            <textarea cols="30" rows="5" placeholder="Headers" v-if="object.type == 'custom'" class="form-text" v-model="object.headers"></textarea>
+        </div>
+        <div class="m-3">
+            <input type="text" v-if="object.type == 'custom'" class="form-text" placeholder="API url (https://example.com/)" v-model="object.api_url">
+        </div>
+        <div class="m-3" v-if="object.type == 'custom'">
+            <label for="request_t" class="text-light">Request type</label>
+            <select id="request_t" class="form-select" v-model="object.request_type">
+                <option value="POST">POST</option>
+                <option value="GET">GET</option>
+            </select>
+        </div>
+        <div class="m-3">
+            <textarea cols="40" rows="12" class="form-text"  placeholder="Body pattern" v-model="object.body_pattern" v-if="object.request_type == 'POST'"></textarea>
+        </div>
+        <div class="m-3">
+            <label for="request_t" class="text-light">Body Format</label>
+            <select v-model="object.body_format" id="request_t">
+                <option value="JSON">JSON</option>
+                <option value="XML">XML</option>
+                <option value="PLAIN TEXT">PLAIN TEXT</option>
+            </select>
+        </div>
+        <input type="button" @click.prevent="submitForm" value="Submit" class="btn btn-success m-3">
+    </form>
+{%endblock%}

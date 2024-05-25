@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load dict_filters %}
+{% block content %}
+<main class="container">
+    <table>
+        <thead>
+            {% for i in heads %}
+                <th>{{ i.label }}</th>
+            {% endfor %}
+            <th>Дії</th>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                {% for i in heads %}
+                    <td> {{ item|get_val:i.key }}</td>
+                {% endfor %}
+                <td><a href="/app/delete?what={{ what }}&id={{ item|get_val:'id' }}" class="btn btn-outline-warning">DELETE</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+{% endblock %}

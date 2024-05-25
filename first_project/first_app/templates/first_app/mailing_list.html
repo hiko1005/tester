@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Mailing list add
+{% endblock %}
+<!-- JS -->
+{% block scripts %}
+<script src="{% static 'js/mailing_list.js' %}" type="module"></script>
+{% endblock %}
+
+{% block content %}
+    <form action="" method="POST" class="card-body p-3 m-5 bg-primary" style="border-radius: 12px;"
+        id="app">
+        {% csrf_token %}
+        <div class="m-3">
+            <input type="text" name="label" id="label" v-model="object.label" placeholder="Label" class="form-label">
+        </div>
+    </div>
+    <div class="m-3">
+        <input type="checkbox" name="is_active" id="is_active" v-model="object.is_active" placeholder="Active"
+        class="form-checkbox">
+        <label for="is_active" class="text-light">Active</label>
+    </div>
+    <div class="m-3">
+        <label for="contacts" class="text-light">Contacts</label>
+        <select multiple name="contacts" id="contacts" v-model="object.contacts" class="form-select">
+            {% for contact in contacts %}
+                    <option value="{{contact.id}}">{{contact.label}}</option>
+                {% endfor %}
+        </select>
+        <div class="m-3">
+            <label for="mailing_services" class="text-light">Mailing services</label>
+            <select multiple name="mailing_services" id="mailing_services" v-model="object.mailing_services" class="form-select">
+                {% for service in services %}
+                    <option value="{{service.id}}">{{service.label}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="m-3">
+            <label for="sites" class="text-light">Sites</label>
+            <select multiple name="sites" id="sites" v-model="object.sites" class="form-select">
+                {% for site in sites %}
+                    <option value="{{site.id}}">{{site.label}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="m-3">
+            <button @click.prevent="submitForm()">Submit</button>
+        </div>
+    </form>
+{% endblock %}

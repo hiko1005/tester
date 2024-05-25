@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block scripts %}
+{% load static %}
+<script src="{% static 'js/contact-add.js' %}" type="module"></script>
+
+{% endblock %}
+{% block title %}
+Contant add
+{% endblock %}
+
+{% block content %}
+    <form action="" method="POST" class="card-body p-3 m-5 bg-primary" style="border-radius: 12px;" id="app" method="POST">
+        {% csrf_token %}
+        <div class="m-3">
+            <input type="text" placeholder="label" class="from-text" v-model="object.label">
+        </div>
+        <div class="m-3">
+            <input type="text" placeholder="contact" class="form-text" v-model="object.contact_string"> 
+        </div>
+        <div class="m-3">
+            <label for="is_active" class="text-light">Active</label>
+            <input type="checkbox" id="is_active" class="form-check-input" v-model="object.is_active">
+        </div>
+        <input type="button" @click.prevent="submitForm" value="Submit" class="btn btn-success m-3">
+    </form>
+{% endblock %}
