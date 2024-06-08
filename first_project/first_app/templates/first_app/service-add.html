@@ -3,7 +3,14 @@
 {% block title %}
 Service add
 {% endblock %}{%block scripts%}
+<script>let isEditMode = () => {return false}</script>
+{% if not edit %}
 <script src="{% static 'js/service-add.js' %}" type="module"></script>
+{% else %}
+<script>isEditMode = () => {return true}</script>
+{% comment %} <script src="{% static 'js/service-edit.js' %}" type="module"></script> {% endcomment %}
+<script src="{% static 'js/service-add.js' %}" type="module"></script>
+{% endif %}
 {% endblock %}
 {% block content %}
     <form action="" method="POST" class="card-body p-3 m-5 bg-primary" style="border-radius: 12px;" id="app">
@@ -61,6 +68,9 @@ Service add
                 <option value="PLAIN TEXT">PLAIN TEXT</option>
             </select>
         </div>
+        {% if id is not Null %}
+        <input type="hidden" name="id" value="{{ id }}">
+        {% endif %}
         <input type="button" @click.prevent="submitForm" value="Submit" class="btn btn-success m-3">
     </form>
 {%endblock%}

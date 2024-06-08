@@ -33,4 +33,7 @@ urlpatterns = [
 
     path("list/<str:what>", views.list_any, name="list_any"),
     path("delete/", views.delete_any, name="deleter"),
+
+    path("services/", views.get_service, name="get_service"),
+    path("services-edit/", views.service_edit, name="service_edit"),
 ]

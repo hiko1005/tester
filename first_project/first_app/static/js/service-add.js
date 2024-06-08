@@ -53,14 +53,15 @@ const app = createApp({
                 alert('Try again, you wrote something wrong')
             } else {
                 fetch(this.$el.parentElement.action, {
-                    method: 'POST',
+                    method: isEditMode() ? 'PUT':'POST',
                     body: JSON.stringify(this.normalize(this.object)),
                     headers: {
                         "X-CSRFToken": this.$el.parentElement.querySelector('input[name="csrfmiddlewaretoken"]').value
                     }
                 }).then(
                     respone => respone.json()
-                    ) 
+                    
+                    )
                     //.then(respone => respone.json())
                     .then(data => {
                         location.href = '/app/list/services'
@@ -82,11 +83,16 @@ const app = createApp({
                 n_obj.type == "custom"
                 n_obj.api_url = `https://api.telegram.org/bot{token}/sendMessage`
                 n_obj.request_type = "POST"
-                n_obj.body_pattern = "{\"chat_id\": \"{contact_string}\", \"text\": \"{message}\"}"
+                n_obj.body_pattern = "{\"chat_id\": \"{contact.contact_string}\", \"text\": \"{message}\"}"
                 return n_obj
             }
         }
     },
+    mounted() {
+        if(isEditMode()) {
+            fetch("/app/services?id=" + document.querySelector("input[name = 'id']").value).then(responce => responce.json()).then(data => this.object = data)
+        }
+    }
 })
 
 app.mount("#app")

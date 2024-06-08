@@ -1,7 +1,5 @@
-from django.shortcuts import render
-from django.core import serializers
-from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect
 import json
 
 from .SiteService import SiteService
@@ -60,7 +58,8 @@ def service_add(request):
         try:
             resp = {
                     'status': 'ok',
-                'data': model_to_dict(ServiceService().save(json.loads(request.body)))
+                'data': model_to_dict(ServiceService().save(json.loads(request.body))),
+                'edit': False,
             }
         except json.decoder.JSONDecodeError as e:
             resp = {
@@ -156,3 +155,22 @@ def delete_any(request):
     elif(request.GET.get('what') == 'mailing-lists'):
         MailingListService().delete(id)
     return redirect(request.headers['referer'])
+
+@login_required
+def get_service(request):
+    id = request.GET.get('id')
+    service = ServiceService().findById(id)
+    result = model_to_dict(service)
+    return HttpResponse(json.dumps(result), content_type="application/json")
+
+@login_required
+def service_edit(request): 
+    if request.method == "GET":
+        context = {
+            "edit": True,
+            "id": request.GET.get('id'),
+        }
+        return render(request, "service-add.html", context)
+    model_to_dict(ServiceService().save(json.loads(request.body)))
+    return HttpResponse(json.dumps({"redirect": "/app/list/services"}), content_type="application/json")
+

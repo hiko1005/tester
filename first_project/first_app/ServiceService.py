@@ -12,3 +12,6 @@ class ServiceService:
     
     def delete(self, id):
         MailingService.objects.filter(id=id).delete()
+
+    def findById(self, id):
+        return MailingService.objects.get(pk = id)

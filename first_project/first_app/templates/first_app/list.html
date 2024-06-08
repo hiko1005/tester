@@ -16,6 +16,7 @@
                     <td> {{ item|get_val:i.key }}</td>
                 {% endfor %}
                 <td><a href="/app/delete?what={{ what }}&id={{ item|get_val:'id' }}" class="btn btn-outline-warning">DELETE</a></td>
+                <td><a href="/app/{{ what }}-edit?id={{ item|get_val:'id' }}" class="btn btn-outline-warning">EDIT</a></td>
             </tr>
             {% endfor %}
         </tbody>
